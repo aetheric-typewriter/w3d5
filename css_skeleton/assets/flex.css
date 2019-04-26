@@ -3,6 +3,11 @@ body {
   background-color: #FEFFF1;
 }
 
+header {
+  display: flex;
+  justify-content: space-between;
+}
+
 h1 {
   font-size: 38px;
   margin-bottom: 10px;
@@ -66,17 +71,12 @@ h2 + .user_review {
     border-top: 1px solid black;
 }
 
-nav {
-    float: right;
-}
-
-nav ul li {
-    display: inline-block;
-}
-
 nav ul li a {
     padding: 20px;
-    display: block;
+}
+
+nav ul {
+  display: flex;
 }
 
 body {
