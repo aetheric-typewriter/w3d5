@@ -1,5 +1,6 @@
 require_relative 'db_connection'
 require 'active_support/inflector'
+require 'byebug'
 # NB: the attr_accessor we wrote in phase 0 is NOT used in the rest
 # of this project. It was only a warm up.
 
@@ -38,11 +39,19 @@ class SQLObject
   end
 
   def self.all
-    # ...
+    results = DBConnection.execute(<<-SQL)
+      SELECT
+        *
+      FROM
+        "#{table_name}"
+    SQL
   end
 
   def self.parse_all(results)
-    # ...
+    parse = results.map do |params|
+      self.new(params)
+    end
+    parse
   end
 
   def self.find(id)
@@ -50,7 +59,12 @@ class SQLObject
   end
 
   def initialize(params = {})
-    # ...
+    params.each do |k, v|
+      # debugger
+      raise "unknown attribute '#{k}'" unless self.class.columns.include?(k.to_sym)
+      k_equals = k.to_s + "="
+      send(k_equals.to_sym, v)
+    end
   end
 
   def attributes
